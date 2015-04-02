@@ -4,6 +4,7 @@ import sqlite3
  
 data = json.loads(open("/hometu/etudiants/E133926X/workspace/pyth/Donneesact.json").read())
 table = '''installation'''
+ville = ""
 
 class WebManager(object):
 	"""
@@ -26,8 +27,8 @@ class WebManager(object):
 					function envoi()
 					{
 						inputtable = document.getElementById("inputtable").value;
-						inputville = document.getElementById("inputtable").value;
-						location.href="search/" + inputtable + "$" + inputville + "/";
+						inputville = document.getElementById("inputville").value;
+						location.href="search/" + inputtable; // + "$" + inputville + "/";
 					}
 				</script>
 				<label for="inputtable">Table : </label><input type="text" name="inputtable" id="inputtable" /><br />
@@ -54,9 +55,6 @@ class WebManager(object):
 		else:
 			res = res + "</th></tr>"
 
-	#	for title in c.execute('''Select * from ''' + table + ''' order by ComInsee'''):
-	#		res = res + "<td>" + title.getAttr() + "</td>"
-	#	res = res + "</th></tr>"
 		for row in c.execute('''Select * from ''' + table + ''' order by ComInsee'''):
 			res = res + "<tr>"
 			if (int(i) <= int(100)):
@@ -85,8 +83,6 @@ class WebManager(object):
 			res = res + "InsLibelleVoie</th><th>InsTransportTrain</th><th>Nb_Equipements</th><th>InsPartLibelle</th><th>InsNbPlaceParkingHandi</th><th>InsNbPlaceParking</th><th>InsTransportBateau</th><th>InsNoVoie</th><th>InsLieuDit</th><th>InsTransportTram</th><th>InsEmpriseFonciere</th><th>Latitude</th><th>ComLib</th><th>InsTransportBus</th><th>InsCodePostal</th><th>InsMultiCommune</th><th>ComInsee</th><th>InsDateMaj</th><th>InsAccessibiliteAucun</th><th>Nb_FicheEquipement</th><th>InsTransportAutre</th><th>InsAccessibiliteHandiSens</th><th>InsGardiennee</th><th>InsTransportMetro</th><th>InsAccessibiliteHandiMoteur</th><th>InsNumeroInstall</th><th>Longitude</th></tr>"
 		else:
 			res = res + "</th></tr>"
-	#	for title in c.execute('''Select * from ''' + table + ''' order by ComInsee'''):
-	#		res = res + "<td>" + title + "</td>"
 		res = res + "</th></tr><tr>"
 		for row in c.execute('''Select * from ''' + table + ''' order by ComInsee'''):
 			if (int(i) == int(id)):
@@ -96,12 +92,6 @@ class WebManager(object):
 			i = i + 1
 		res = res + "</tr></table>"
 		return res
-	#	try:
-	#		item = data[int(id)]
-	#	except (IndexError, IOError):
-	#		return "Invalid ID"
-		 
-	#	return json.dumps(item)
 	
 
 	@cherrypy.expose
@@ -111,6 +101,7 @@ class WebManager(object):
 		"""
 		requete = request.split("$")
 		table = requete[0]
+		ville = requete[1]
 		return "<script>location.href='../show_all';</script>"
 
 cherrypy.quickstart(WebManager())
