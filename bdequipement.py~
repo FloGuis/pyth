@@ -1,0 +1,31 @@
+import sqlite3
+
+conn = sqlite3.connect('installations.db')
+
+c = conn.cursor()
+
+c.execute("DROP TABLE IF EXISTS installation")
+c.execute('''CREATE TABLE installation (InsLibelleVoie, InsTransportTrain, Nb_Equipements integer, InsPartLibelle, InsNbPlaceParkingHandi, InsNbPlaceParking, InsTransportBateau boolean, InsNoVoie, InsLieuDit, InsTransportTram, InsEmpriseFonciere integer, Latitude, ComLib text, InsTransportBus, InsCodePostal integer, InsMultiCommune, ComInsee, InsDateMaj date, InsAccessibiliteAucun boolean, _l, Nb_FicheEquipement integer, InsTransportAutre, InsAccessibiliteHandiSens, geo, InsGardiennee, InsTransportMetro, InsAccessibiliteHandiMoteur, InsNumeroInstall integer, Longitude integer, nom text)''')
+
+c.execute("DROP TABLE IF EXISTS activite")
+c.execute('''CREATE TABLE activite (numero integer, nom text)''')
+
+c.execute("DROP TABLE IF EXISTS equipement")
+c.execute('''CREATE TABLE equipement (numero integer, nom text)''')
+
+conn.commit()
+conn.close()
+
+conn = sqlite3.connect('installations.db')
+
+c = conn.cursor()
+
+c.execute('''INSERT INTO installation VALUES (721740002, 'Terrain de Pétanque')''')
+c.execute('''INSERT INTO installations VALUES (721750009, 'Ecole Publique')''')
+
+conn.commit()
+
+for row in c.execute('SELECT * FROM installation ORDER BY nom'):
+    print(row)
+
+conn.close()
